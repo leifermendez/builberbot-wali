@@ -14,9 +14,21 @@ dependencies:
   '@builderbot/provider-baileys':
     specifier: 1.1.3
     version: 1.1.3
+  axios:
+    specifier: ^1.6.8
+    version: 1.6.8
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5
+  form-data:
+    specifier: ^4.0.0
+    version: 4.0.0
+  mime-types:
+    specifier: ^2.1.35
+    version: 2.1.35
+  polka:
+    specifier: ^0.5.2
+    version: 0.5.2
 
 devDependencies:
   '@types/node':
