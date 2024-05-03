@@ -118,9 +118,7 @@ const main = async () => {
     adapterProvider.server.post(
         '/v1/state',
         handleCtx(async (bot, req, res) => {
-          
             const data = bot.state('+34XXXXXXXX').getMyState()
-
             res.writeHead(200, { 'Content-Type': 'application/json' })
             return res.end(JSON.stringify(data))
         })

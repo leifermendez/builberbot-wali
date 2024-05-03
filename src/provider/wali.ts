@@ -22,7 +22,8 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
         name: 'bot',
         port: 3000,
         token: undefined,
-        deviceId: undefined
+        deviceId: undefined,
+        writeMyself: 'none'
     };
 
     /**
@@ -37,6 +38,14 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
         }
         if (!this.globalVendorArgs.deviceId) {
             throw new Error('You must provide the DeviceID https://app.wali.chat/')
+        }
+    }
+
+
+    private builderHeader = () => {
+        return {
+            'Content-Type': 'application/json',
+            Token: this.globalVendorArgs.token
         }
     }
 
@@ -79,11 +88,26 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
             },
             {
                 event: 'ready',
-                func: () => this.emit('ready', true),
+                func: () => {
+                    this.emit('ready', true)
+                    console.log(`>>>>>>>>>>>>`,`https://app.wali.chat/65f48eed0a4998add9e8114d`)
+                },
             },
             {
                 event: 'message',
                 func: (payload: BotContext) => {
+                    if (this.globalVendorArgs.writeMyself === 'none' && payload?.key?.fromMe) return
+                    if (
+                        this.globalVendorArgs.host?.phone !== payload.from &&
+                        payload?.key?.fromMe &&
+                        !['both'].includes(this.globalVendorArgs.writeMyself)
+                    ) return
+                        
+                    if (
+                        this.globalVendorArgs.host?.phone === payload.from &&
+                        !['both', 'host'].includes(this.globalVendorArgs.writeMyself)
+                    ) return
+                        
                     this.emit('message', payload)
                 },
             },
@@ -178,9 +202,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
     checkStatus = async (deviceId: string) => {
         try {
             const dataApi = await fetch(`${URL}/v1/devices/${deviceId}/health`, {
-                headers: {
-                    Token: this.globalVendorArgs.token
-                }
+                headers: this.builderHeader()
             })
             const data = await dataApi.json()
 
@@ -192,9 +214,8 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
             if (data.status !== 200) {
                 this.emit('auth_failure', {
                     instructions: [
-                        data.message ?? `You must reconnect your device`,
-                        ``,
-                        `Check: https://app.wali.chat/${deviceId}/info`
+                        `⚠️: You must reconnect your device`,
+                        `➡️: https://app.wali.chat/${deviceId}/info`
                     ]
                 })
                 return
@@ -231,10 +252,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
 
         const body = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Token: this.globalVendorArgs.token
-            },
+            headers: this.builderHeader(),
             body: JSON.stringify(payload)
         };
         const dataApi = await fetch(`${URL}/v1/messages`, body)
