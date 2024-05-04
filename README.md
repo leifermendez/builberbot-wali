@@ -3,7 +3,7 @@
 ## Quick start
 
 ```bash
-pnpm install @builderbot-plugins/wali@1.0.1 @builderbot/bot@dev
+pnpm install @builderbot-plugins/wali@latest @builderbot/bot@latest
 ```
 
 You must have `@builderbot/bot` version 1.1.5 or higher.
