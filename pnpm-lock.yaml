@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@builderbot-plugins/wali':
-    specifier: ^1.0.0
-    version: 1.0.0(@babel/core@7.24.5)(jest@29.7.0)(typescript@5.4.5)
+    specifier: ^1.0.1
+    version: 1.0.1(@babel/core@7.24.5)(jest@29.7.0)(typescript@5.4.5)
   '@builderbot/bot':
     specifier: 1.1.5-alpha.1
     version: 1.1.5-alpha.1
@@ -31,6 +31,9 @@ dependencies:
     version: 0.5.2
 
 devDependencies:
+  '@types/mime-types':
+    specifier: ^2.1.4
+    version: 2.1.4
   '@types/node':
     specifier: ^20.11.30
     version: 20.12.8
@@ -411,10 +414,10 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: false
 
-  /@builderbot-plugins/wali@1.0.0(@babel/core@7.24.5)(jest@29.7.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-+6wJZiAYR2eDmQg7/nxtu+zimpHZN+5nq/O1NFYWgIySkmAN0riYtUhEwVUbzms+j/s4BoU/gzfBK3tZ3SG82Q==}
+  /@builderbot-plugins/wali@1.0.1(@babel/core@7.24.5)(jest@29.7.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-uRi+roiR6c55/OXOsTF/KHJabuCdzRhDGcQtvmrzDZghH2VFEXWM8JjWYhbZXhkeuvP42hAP2edfJZuAQ5bXVg==}
     dependencies:
-      '@builderbot/bot': 1.1.4
+      '@builderbot/bot': 1.1.5-alpha.2
       axios: 1.6.7
       body-parser: 1.20.2
       dotenv: 16.4.1
@@ -433,8 +436,8 @@ packages:
       - typescript
     dev: false
 
-  /@builderbot/bot@1.1.4:
-    resolution: {integrity: sha512-s/T002gjMeMnGVM61Y5QeHplr7XGeop8eHkUObICXEqd0TLih/QtywPlcG9xQ2hsw/c0kMx9yFXsPmu616yzEg==}
+  /@builderbot/bot@1.1.5-alpha.1:
+    resolution: {integrity: sha512-QHg0NliZ76Jn44BEFluy/X4H8ghXXewdWYruAmrUwV68ljYEyeOBn7XyMni+t0NCzOf8YjXaTfIs3YKVseC9ag==}
     dependencies:
       '@ffmpeg-installer/ffmpeg': 1.1.0
       body-parser: 1.20.2
@@ -451,8 +454,8 @@ packages:
       - supports-color
     dev: false
 
-  /@builderbot/bot@1.1.5-alpha.1:
-    resolution: {integrity: sha512-QHg0NliZ76Jn44BEFluy/X4H8ghXXewdWYruAmrUwV68ljYEyeOBn7XyMni+t0NCzOf8YjXaTfIs3YKVseC9ag==}
+  /@builderbot/bot@1.1.5-alpha.2:
+    resolution: {integrity: sha512-2pYTw+zigyTUlxxrjdFrPiJ8aCPllNth6jCH67l/pqol7w3BK5NKpUVgTu+oKi36OPw1eiZ8gCmFACntgbeJtg==}
     dependencies:
       '@ffmpeg-installer/ffmpeg': 1.1.0
       body-parser: 1.20.2
@@ -1632,6 +1635,10 @@ packages:
   /@types/long@4.0.2:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
     dev: false
+
+  /@types/mime-types@2.1.4:
+    resolution: {integrity: sha512-lfU4b34HOri+kAY5UheuFMWPDOI+OPceBSHZKp69gEyTL/mmJ4cnU6Y/rlme3UL3GyOn6Y42hyIEw0/q8sWx5w==}
+    dev: true
 
   /@types/mime@1.3.5:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}

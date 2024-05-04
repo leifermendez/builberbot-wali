@@ -2,8 +2,8 @@ import "dotenv/config"
 import { join } from 'path'
 import { createBot, createProvider, createFlow, addKeyword, utils } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
-// import { WaliProvider as Provider } from '@builderbot-plugins/wali'
-import { WaliProvider as Provider } from './provider/wali'
+import { WaliProvider as Provider } from '@builderbot-plugins/wali'
+// import { WaliProvider as Provider } from './provider/wali'
 
 const PORT = process.env.PORT ?? 3008
 
@@ -66,13 +66,15 @@ const main = async () => {
     
     const adapterProvider = createProvider(Provider, {
         token: process.env.WALI_TOKEN,
-        deviceId: process.env.WALI_DEVICE_ID
+        deviceId: process.env.WALI_DEVICE_ID,
+        api: 'https://wa-api.builderbot.app'
     }) 
+    
     const adapterDB = new Database()
 
     const { handleCtx, httpServer } = await createBot({
         flow: adapterFlow,
-        provider: adapterProvider,
+        provider: adapterProvider as any,
         database: adapterDB,
     })
 

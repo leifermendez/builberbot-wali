@@ -9,6 +9,7 @@ export type WaliMessage = {
         from: string
         fromNumber: string
         body?: string
+        timestamp:number
         chat: {
             type: string
         }
@@ -26,7 +27,7 @@ export type WaliMessage = {
 
 export class WaliEvents extends EventEmitterClass<ProviderEventTypes> {
 
-    /**
+    /**1714642910
      * Función que maneja el evento de mensaje entrante de Wali.
      * @param payload - El mensaje entrante de Wali.
      */
@@ -36,6 +37,7 @@ export class WaliEvents extends EventEmitterClass<ProviderEventTypes> {
         if (payload.data.from.includes('g.us') || !payload.data) return
         const sendObj = {
             ...payload,
+            timestamp:payload.data?.timestamp ?? 0,
             body: payload.data?.body || '',
             from: payload.data.fromNumber,
             name: payload.data.meta.notifyName,
@@ -43,7 +45,6 @@ export class WaliEvents extends EventEmitterClass<ProviderEventTypes> {
                 phone: payload.data.toNumber
             },
         }
-        
         if (['image', 'video'].includes(payload.data.type)) sendObj.body = utils.generateRefProvider('_event_media_')
         if (payload.data.type === 'document') sendObj.body = utils.generateRefProvider('_event_document_')
         if (payload.data.type === 'audio') sendObj.body = utils.generateRefProvider('_event_voice_note_')

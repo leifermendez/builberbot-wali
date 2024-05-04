@@ -10,9 +10,7 @@ import axios, { AxiosResponse } from 'axios'
 import FormData from 'form-data'
 import mime from 'mime-types'
 
-const URL = 'https://api.wali.chat'
-
-export type WaliArgs = GlobalVendorArgs & { token: string, deviceId: string }
+export type WaliArgs = GlobalVendorArgs & { token: string, deviceId: string, api?: string }
 
 /**
  * Provider class for interacting with the Wali API.
@@ -20,11 +18,14 @@ export type WaliArgs = GlobalVendorArgs & { token: string, deviceId: string }
 export class WaliProvider extends ProviderClass<WaliEvents> {
     globalVendorArgs: WaliArgs = {
         name: 'bot',
+        api: 'https://api.wali.chat',
         port: 3000,
         token: undefined,
         deviceId: undefined,
         writeMyself: 'none'
     };
+
+    private timeStampsInit = Math.floor(Date.now()/1000)
 
     /**
      * Constructor for WaliProvider.
@@ -34,7 +35,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
         super();
         this.globalVendorArgs = { ...this.globalVendorArgs, ...args }
         if (!this.globalVendorArgs.token) {
-            throw new Error('Must provide Wali Token https://app.wali.chat/developers/apikeys')
+            throw new Error(`Must provide Wali Token https://app.wali.chat/developers/apikeys`)
         }
         if (!this.globalVendorArgs.deviceId) {
             throw new Error('You must provide the DeviceID https://app.wali.chat/')
@@ -90,12 +91,12 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
                 event: 'ready',
                 func: () => {
                     this.emit('ready', true)
-                    console.log(`>>>>>>>>>>>>`,`https://app.wali.chat/65f48eed0a4998add9e8114d`)
                 },
             },
             {
                 event: 'message',
                 func: (payload: BotContext) => {
+                    if(this.timeStampsInit > payload.timestamp) return
                     if (this.globalVendorArgs.writeMyself === 'none' && payload?.key?.fromMe) return
                     if (
                         this.globalVendorArgs.host?.phone !== payload.from &&
@@ -107,7 +108,6 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
                         this.globalVendorArgs.host?.phone === payload.from &&
                         !['both', 'host'].includes(this.globalVendorArgs.writeMyself)
                     ) return
-                        
                     this.emit('message', payload)
                 },
             },
@@ -144,7 +144,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
      */
     private downloadFile = async (idResource: string): Promise<{ buffer: Buffer; extension: string }> => {
         try {
-            const urlMedia = `${URL}${idResource}`
+            const urlMedia = `${this.globalVendorArgs.api}${idResource}`
             const response: AxiosResponse = await axios.get(urlMedia, {
                 headers: {
                     Token: this.globalVendorArgs.token,
@@ -177,7 +177,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
 
         try {
             const response = await axios.post(
-                `${URL}/v1/files`,
+                `${this.globalVendorArgs.api}/v1/files`,
                 formData,
                 {
                     headers: {
@@ -201,7 +201,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
      */
     checkStatus = async (deviceId: string) => {
         try {
-            const dataApi = await fetch(`${URL}/v1/devices/${deviceId}/health`, {
+            const dataApi = await fetch(`${this.globalVendorArgs.api}/v1/devices/${deviceId}/health`, {
                 headers: this.builderHeader()
             })
             const data = await dataApi.json()
@@ -255,7 +255,7 @@ export class WaliProvider extends ProviderClass<WaliEvents> {
             headers: this.builderHeader(),
             body: JSON.stringify(payload)
         };
-        const dataApi = await fetch(`${URL}/v1/messages`, body)
+        const dataApi = await fetch(`${this.globalVendorArgs.api}/v1/messages`, body)
         const data = await dataApi.json()
         return data
     }
