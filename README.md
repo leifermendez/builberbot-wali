@@ -1,16 +1,16 @@
-# How tu use WaliProvider with Builderbot
+# How to use WaliProvider with Builderbot
 
 ## Quick start
-
 
 ```bash
 pnpm install @builderbot-plugins/wali@1.0.1 @builderbot/bot@dev
 ```
-You must have `@builderbot/bot` version 1.1.5 or higher
+
+You must have `@builderbot/bot` version 1.1.5 or higher.
 
 ## Chatbot
 
-```ts
+```typescript
 import { WaliProvider as Provider } from '@builderbot-plugins/wali'
 
 const adapterProvider = createProvider(Provider, {
@@ -21,42 +21,37 @@ const adapterProvider = createProvider(Provider, {
 ```
 
 ## Wali Platform
-Primero de todo debes registrate https://console.builderbot.app/
-Te registras y elijes el plane de tu preferencia es totalmente gratis cualquier plan
-los pimeros 7 días.
 
-Luego debes de iniciar sesion con tu whatsapp escaneando el codigo qr generado,
-debes de escanearlo con tu aplicaciond de whatsapp.
+First of all, you need to register at [BuilderBot Console](https://console.builderbot.app/). Sign up and choose your preferred plan, it's completely free for the first 7 days.
 
-### ¿How I get the WALI_TOKEN?
-Debes ingresar en la siguiente URl y obtener tu clave de API
+Then, you need to log in with your WhatsApp by scanning the QR code generated. Scan it with your WhatsApp application.
 
-https://console.builderbot.app/developers/apikeys
+### How do I get the WALI_TOKEN?
 
-![](https://i.imgur.com/e7IGao1.png)
+You need to go to the following URL and get your API key: [API Keys](https://console.builderbot.app/developers/apikeys)
 
-### ¿How I get the WALI_DEVICE_ID?
+![WALI_TOKEN](https://i.imgur.com/e7IGao1.png)
 
-Ingresas a tu panel y en la seccion de numeros de whatsapp encontras los dispositivos vinculados en lo detalles encontraras el id como lo resalta la imagen.
+### How do I get the WALI_DEVICE_ID?
 
-![](https://i.imgur.com/74rtp9G.png)
+Access your dashboard and go to the WhatsApp numbers section to find the linked devices. In the details, you will find the ID as highlighted in the image.
 
-### ¿How add webhook?
+![WALI_DEVICE_ID](https://i.imgur.com/74rtp9G.png)
 
-Ahora solo falta un paso debemos de indicar cual va ser la URL del webhook, para esto deberas tener tu chatbot desplegado o en ejecuccion en un servidor y podras
-ver en los registro un url como la siguiente
+### How to add a webhook?
+
+Now, the final step is to indicate the webhook URL, for this you must have your chatbot deployed or running on a server and you can see in the logs a URL like the following
 
 ```
 http://localhost:3008/webhook
 ```
-NO puedes usar `localhost` es una referencia, en el caso de tener
-tu bot desplegado en railway la url seria algo similar a esta 
+
+You cannot use `localhost` as it is a reference. If you have your bot deployed on Railway, the URL would be something similar to
 
 ```
 https://primary-production-e322.up.railway.app/webhook
 ```
 
-![](https://i.imgur.com/uk74xJe.png)
-![](https://i.imgur.com/d8tS1pw.png)
-![](https://i.imgur.com/GMlPbar.png)
-
+![Webhook URL](https://i.imgur.com/uk74xJe.png)
+![Webhook URL](https://i.imgur.com/d8tS1pw.png)
+![Webhook URL](https://i.imgur.com/GMlPbar.png)

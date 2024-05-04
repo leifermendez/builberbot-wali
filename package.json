@@ -12,9 +12,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "@builderbot-plugins/wali": "^1.0.1",
-    "@builderbot/bot": "1.1.5-alpha.1",
-    "@builderbot/provider-baileys": "1.1.5-alpha.1",
+    "@builderbot-plugins/wali": "^1.0.2",
+    "@builderbot/bot": "1.1.5",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "form-data": "^4.0.0",
