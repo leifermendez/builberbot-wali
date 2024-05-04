@@ -3,6 +3,7 @@ import { join } from 'path'
 import { createBot, createProvider, createFlow, addKeyword, utils } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
 import { WaliProvider as Provider } from '@builderbot-plugins/wali'
+// import { WaliProvider as Provider } from './provider/wali'
 
 const PORT = process.env.PORT ?? 3008
 
@@ -37,8 +38,9 @@ const welcomeFlow = addKeyword<Provider, Database>(['hi', 'hello', 'hola'])
         [discordFlow]
     )
 
-const registerFlow = addKeyword<Provider, Database>(utils.setEvent('REGISTER_FLOW'))
+const registerFlow = addKeyword<Provider, Database>(['register',utils.setEvent('REGISTER_FLOW')])
     .addAnswer(`What is your name?`, { capture: true }, async (ctx, { state }) => {
+        console.log(ctx)
         await state.update({ name: ctx.body })
     })
     .addAnswer('What is your age?', { capture: true }, async (ctx, { state }) => {
@@ -64,13 +66,15 @@ const main = async () => {
     
     const adapterProvider = createProvider(Provider, {
         token: process.env.WALI_TOKEN,
-        deviceId: process.env.WALI_DEVICE_ID
+        deviceId: process.env.WALI_DEVICE_ID,
+        api: 'https://wa-api.builderbot.app'
     }) 
+    
     const adapterDB = new Database()
 
     const { handleCtx, httpServer } = await createBot({
         flow: adapterFlow,
-        provider: adapterProvider,
+        provider: adapterProvider as any,
         database: adapterDB,
     })
 
@@ -110,6 +114,15 @@ const main = async () => {
 
             res.writeHead(200, { 'Content-Type': 'application/json' })
             return res.end(JSON.stringify({ status: 'ok', number, intent }))
+        })
+    )
+
+    adapterProvider.server.post(
+        '/v1/state',
+        handleCtx(async (bot, req, res) => {
+            const data = bot.state('+34XXXXXXXX').getMyState()
+            res.writeHead(200, { 'Content-Type': 'application/json' })
+            return res.end(JSON.stringify(data))
         })
     )
 
